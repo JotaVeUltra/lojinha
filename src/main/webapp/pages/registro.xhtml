@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns="http://www.w3.org/1999/xhtml"
+>
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Registro</title>
+</h:head>
+<h:body styleClass="login">
+
+    <p:growl id="msg"/>
+    <h:form id="frmT">
+        <p:panel>
+            <h:outputText value="Nice to meet you! "/>
+            <p:commandButton value="Registra" actionListener="#{usuarioBean.novo}" oncomplete="PF('dlg').show();"
+                             rendered="#{loginBean.logged eq false}"/>
+        </p:panel>
+    </h:form>
+
+    <p:dialog header="Usuarios - Cadastro" widgetVar="dlg" resizable="false" draggable="false" modal="true"
+              closable="false">
+        <h:form id="frmCad">
+            <h:panelGrid columns="2" id="telaCad">
+                <p:outputLabel value="Nome de Usuario"/>
+                <p:inputText size="20" maxlength="30" value="#{usuarioBean.usuario.nome}"/>
+                <p:outputLabel value="Senha"/>
+                <p:password promptLabel="Digite uma senha" weakLabel="Fraca" goodLabel="Boa" strongLabel="Forte"
+                            feedback="true" value="#{usuarioBean.usuario.senha}"/>
+                <p:outputLabel value="Idade"/>
+                <p:inputText size="1" maxlength="3" value="#{usuarioBean.usuario.idade}"/>
+                <p:outputLabel value="CPF"/>
+                <p:inputMask value="#{usuarioBean.usuario.cpf}" mask="999.999.999-99"/>
+                <p:outputLabel value="Telefone"/>
+                <p:inputMask value="#{usuarioBean.usuario.telefone}" mask="(99) 9 9999 999?9"/>
+                <p:outputLabel value="Estado"/>
+                <p:inputText size="50" maxlength="50" value="#{usuarioBean.usuario.endereco.estado}"/>
+                <p:outputLabel value="Cidade"/>
+                <p:inputText size="50" maxlength="50" value="#{usuarioBean.usuario.endereco.cidade}"/>
+                <p:outputLabel value="Bairro"/>
+                <p:inputText size="50" maxlength="50" value="#{usuarioBean.usuario.endereco.bairro}"/>
+                <p:outputLabel value="CEP"/>
+                <p:inputMask value="#{usuarioBean.usuario.endereco.cep}" mask="99999-999"/>
+                <p:outputLabel value="Rua"/>
+                <p:inputText size="50" maxlength="50" value="#{usuarioBean.usuario.endereco.rua}"/>
+                <p:outputLabel value="Numero"/>
+                <p:inputText size="4" maxlength="4" value="#{usuarioBean.usuario.endereco.numero}"/>
+            </h:panelGrid>
+            <h:panelGrid columns="2">
+                <p:commandButton value="Salvar" actionListener="#{usuarioBean.salvar}" update=":msg :frmCad:telaCad"/>
+                <p:commandButton value="Fechar" oncomplete="PF('dlg').hide();"/>
+            </h:panelGrid>
+        </h:form>
+    </p:dialog>
+</h:body>
+</html>

@@ -1,0 +1,1 @@
+para cada domain criado deve ser adicionado  hibernate.cfg.xml

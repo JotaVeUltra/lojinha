@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns="http://www.w3.org/1999/xhtml">
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="tabela.css"/>
+    <title>Usuarios</title>
+</h:head>
+
+<h:body>
+    <p:growl id="msg"/>
+    <h:form id="frmTab">
+        <p:panel header="Usuarios" styleClass="tabela">
+            <p:dataTable emptyMessage="Sem registros" paginator="true" value="#{usuarioBean.usuarios}" var="usuario"
+                         id="table">
+                <f:facet name="header">
+                    <p:commandButton value="Novo" actionListener="#{usuarioBean.novo}" oncomplete="PF('dlg').show();"
+                                     update=":frmCad:telaCad"/>
+                </f:facet>
+                <p:column headerText="Nome" sortBy="#{usuario.nome}" filterBy="#{usuario.nome}">
+                    <h:outputText value="#{usuario.nome}"/>
+                </p:column>
+                <p:column headerText="CPF" sortBy="#{usuario.cpf}" filterBy="#{usuario.cpf}">
+                    <h:outputText value="#{usuario.cpf}"/>
+                </p:column>
+                <p:column headerText="Telefone" sortBy="#{usuario.telefone}" filterBy="#{usuario.telefone}">
+                    <h:outputText value="#{usuario.telefone}"/>
+                </p:column>
+                <p:column headerText="Opções">
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{usuarioBean.excluir}"
+                                     update=":msg :frmTab:table">
+                        <p:confirm header="Confirmação" message="Excluir Usuario" icon="ui-icon-alert"/>
+                        <f:attribute name="usuarioExcluir" value="#{usuario}"/>
+                    </p:commandButton>
+                    <p:commandButton icon="ui-icon-pencil" oncomplete="PF('dlg').show();"
+                                     actionListener="#{usuarioBean.alterar}" update=":frmCad:telaCad">
+                        <f:attribute name="usuarioAlterar" value="#{usuario}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+            </p:confirmDialog>
+
+        </p:panel>
+    </h:form>
+
+    <p:dialog header="Usuarios - Cadastro" widgetVar="dlg"
+              resizable="false" draggable="false" modal="true" closable="false">
+        <h:form id="frmCad">
+            <h:panelGrid columns="2" id="telaCad">
+                <p:outputLabel value="Nome"/>
+                <p:inputText size="20" maxlength="30" value="#{usuarioBean.usuario.nome}"/>
+                <p:outputLabel value="Idade"/>
+                <p:inputText size="1" maxlength="3" value="#{usuarioBean.usuario.idade}"/>
+                <p:outputLabel value="CPF"/>
+                <p:inputText size="11" maxlength="11" value="#{usuarioBean.usuario.cpf}"/>
+                <p:outputLabel value="Telefone"/>
+                <p:inputText size="11" maxlength="11" value="#{usuarioBean.usuario.telefone}"/>
+                <p:outputLabel value="Endereço"/>
+                <p:outputLabel value=""/>
+                <p:outputLabel value="Estado"/>
+                <p:inputText size="50" maxlength="50" value="#{usuarioBean.usuario.endereco.estado}"/>
+                <p:outputLabel value="Cidade"/>
+                <p:inputText size="50" maxlength="50" value="#{usuarioBean.usuario.endereco.cidade}"/>
+                <p:outputLabel value="Bairro"/>
+                <p:inputText size="50" maxlength="50" value="#{usuarioBean.usuario.endereco.bairro}"/>
+                <p:outputLabel value="CEP"/>
+                <p:inputText size="8" maxlength="8" value="#{usuarioBean.usuario.endereco.cep}"/>
+                <p:outputLabel value="Rua"/>
+                <p:inputText size="50" maxlength="50" value="#{usuarioBean.usuario.endereco.rua}"/>
+                <p:outputLabel value="Numero"/>
+                <p:inputText size="4" maxlength="4" value="#{usuarioBean.usuario.endereco.numero}"/>
+            </h:panelGrid>
+            <h:panelGrid columns="2">
+                <p:commandButton value="Salvar"
+                                 actionListener="#{usuarioBean.salvar}" update=":msg :frmCad:telaCad :frmTab:table"/>
+                <p:commandButton value="Fechar" oncomplete="PF('dlg').hide();"/>
+            </h:panelGrid>
+        </h:form>
+    </p:dialog>
+
+</h:body>
+</html>

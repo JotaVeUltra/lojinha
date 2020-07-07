@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+<h:head>
+    <link rel="stylesheet" type="text/css" href="../resources/css/estilos.css"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>lojinha</title>
+</h:head>
+
+<body>
+<p:growl id="msg"/>
+
+<h:form id="formHeader">
+    <p:panel>
+        <p:graphicImage library="images" name="livro.png" height="27" width="40" styleClass="logo"/>
+
+        <p:button value="Loja" outcome="index" styleClass="bh"/>
+
+        <p:button value="Entrar" outcome="login" rendered="#{!loginBean.logged}" styleClass="bh"/>
+        <p:commandButton value="Registrar" actionListener="#{usuarioBean.novo}" oncomplete="PF('dlgReg').show();"
+                         rendered="#{!loginBean.logged}" styleClass="bh"/>
+
+        <p:button value="Meus Produtos" outcome="meusprodutos" rendered="#{loginBean.logged eq true}" styleClass="bh"/>
+        <p:button value="Wishlist" outcome="wishlist" rendered="#{loginBean.logged eq true}" styleClass="bh"/>
+
+        <p:commandButton value="Sair" actionListener="#{loginBean.sair}" update=":msg :frmCad :formHeader :divConteudo"
+                         ajax="true" rendered="#{loginBean.logged eq true}" styleClass="bh"/>
+        <p:outputLabel value=" Usuário em sessão: #{loginBean.usuario.nome}" rendered="#{loginBean.logged eq true}"
+                       styleClass="bh"/>
+    </p:panel>
+</h:form>
+
+
+<h:panelGroup layout="block" id="divConteudo">
+    <ui:insert name="conteudo"/>
+</h:panelGroup>
+
+<p:dialog header="Cadastro" widgetVar="dlgReg" resizable="false" draggable="false" modal="true" closable="false">
+    <h:form id="frmCadUser">
+        <h:panelGrid columns="2" id="telaCad">
+            <p:outputLabel value="Nome de Usuario"/>
+            <p:inputText size="40" maxlength="30" value="#{usuarioBean.usuario.nome}"/>
+            <p:outputLabel value="Senha"/>
+            <p:password promptLabel="Digite uma senha" weakLabel="Fraca" goodLabel="Boa" strongLabel="Forte"
+                        feedback="true" value="#{usuarioBean.usuario.senha}"/>
+            <p:outputLabel value="Idade"/>
+            <p:inputText size="40" maxlength="3" value="#{usuarioBean.usuario.idade}"/>
+            <p:outputLabel value="CPF"/>
+            <p:inputMask value="#{usuarioBean.usuario.cpf}" mask="999.999.999-99"/>
+            <p:outputLabel value="Telefone"/>
+            <p:inputMask value="#{usuarioBean.usuario.telefone}" mask="(99) 9 9999 999?9"/>
+            <p:outputLabel value="Estado"/>
+            <p:inputText size="40" maxlength="50" value="#{usuarioBean.usuario.endereco.estado}"/>
+            <p:outputLabel value="Cidade"/>
+            <p:inputText size="40" maxlength="50" value="#{usuarioBean.usuario.endereco.cidade}"/>
+            <p:outputLabel value="Bairro"/>
+            <p:inputText size="40" maxlength="50" value="#{usuarioBean.usuario.endereco.bairro}"/>
+            <p:outputLabel value="CEP"/>
+            <p:inputMask value="#{usuarioBean.usuario.endereco.cep}" mask="99999-999"/>
+            <p:outputLabel value="Rua"/>
+            <p:inputText size="40" maxlength="50" value="#{usuarioBean.usuario.endereco.rua}"/>
+            <p:outputLabel value="Numero"/>
+            <p:inputText size="40" maxlength="4" value="#{usuarioBean.usuario.endereco.numero}"/>
+        </h:panelGrid>
+        <h:panelGrid columns="2">
+            <p:commandButton value="Ok" actionListener="#{usuarioBean.salvar}"
+                             update=":msg :frmCadUser:telaCad :divConteudo" action="login?faces-redirect=true"/>
+            <p:commandButton value="Fechar" oncomplete="PF('dlgReg').hide();"/>
+        </h:panelGrid>
+    </h:form>
+</p:dialog>
+
+<p:dialog header="Produtos - Cadastro" widgetVar="dlg"
+          resizable="false" draggable="false" modal="true" closable="false">
+    <h:form id="frmCad">
+        <h:panelGrid columns="2" id="telaCad">
+            <p:outputLabel value="Nome"/>
+            <p:inputText size="20" maxlength="100" value="#{produtoBean.produto.nome}"/>
+            <p:outputLabel value="Valor"/>
+            <p:inputText size="9" maxlength="9" value="#{produtoBean.produto.valor}"/>
+            <p:outputLabel value="Descrição"/>
+            <p:inputTextarea rows="7" cols="30" maxlength="300" value="#{produtoBean.produto.descricao}"/>
+            <p:outputLabel value="Estoque"/>
+            <p:inputText size="11" maxlength="11" value="#{produtoBean.produto.estoque}"/>
+            <p:outputLabel value="Categoria"/>
+            <p:inputText size="15" value="#{produtoBean.produto.categoria.nome}"/>
+            <p:outputLabel>Imagem</p:outputLabel>
+            <p:fileUpload auto="true" id="fileUp" mode="advanced" fileUploadListener="#{produtoBean.upload}"/>
+        </h:panelGrid>
+        <h:panelGrid columns="2">
+            <p:commandButton value="Salvar" actionListener="#{produtoBean.salvar}"
+                             update=":msg :frmCad:telaCad :divConteudo" oncomplete="PF('dlg').hide();"/>
+        </h:panelGrid>
+    </h:form>
+</p:dialog>
+
+</body>
+
+</html>

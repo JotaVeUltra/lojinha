@@ -1,0 +1,33 @@
+@CHARSET "UTF-8";
+
+
+.divLogo {
+	padding-bottom: 25px;
+	
+}
+
+.logo {
+	padding-right: 5px;
+	padding-top: 5px;
+}
+
+.bh {
+	padding-bottom: -10px;
+}
+
+.tabela {
+		width: 50%;
+		font: 15px arial, sans-serif;
+		background-color: gray;
+		text-align: center;
+		margin-left: 300px;
+	}
+
+.login {
+		margin: 40px auto;
+		width: 50%;
+		font: 15px arial, sans-serif;
+		background-color: white;
+		text-align: center;
+		margin-top: 150px;
+}
